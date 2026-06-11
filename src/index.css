@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap');
+
+:root {
+  --tan: #6A463A;
+  --celadon: #9AB19A;
+  --tangerine: #DF9841;
+  --cream: #FFF8DD;
+  --bg: #0f0e0d;
+  --bg2: #1a1815;
+  --bg3: #231f1b;
+  --border: rgba(106,70,58,0.25);
+  --text: #FFF8DD;
+  --text-muted: rgba(255,248,221,0.55);
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+  --font-light: 'Open Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+h1,h2,h3,h4,h5 { font-family: var(--font-display); letter-spacing: 0.04em; line-height: 1.1; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--tangerine); color: var(--cream); }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--tan); border-radius: 3px; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+.section { padding: 6rem 0; }
+.section-label {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tangerine);
+  margin-bottom: 1rem;
+}
+.section-title { font-size: clamp(2.5rem, 5vw, 4rem); color: var(--cream); margin-bottom: 1.5rem; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border-radius: 2px;
+}
+.btn-primary { background: var(--tangerine); color: var(--cream); }
+.btn-primary:hover { background: var(--tan); transform: translateY(-2px); }
+.btn-outline { background: transparent; color: var(--cream); border: 1px solid var(--border); }
+.btn-outline:hover { border-color: var(--tangerine); color: var(--tangerine); transform: translateY(-2px); }
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  background: rgba(223,152,65,0.12);
+  color: var(--tangerine);
+  border: 1px solid rgba(223,152,65,0.25);
+}
+.divider { width: 48px; height: 3px; background: var(--tangerine); margin-bottom: 2rem; }

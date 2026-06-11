@@ -1,0 +1,107 @@
+.analytics__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.analytics__stat-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--tangerine);
+  border-radius: 2px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.analytics__stat-icon { font-size: 1.2rem; margin-bottom: 0.25rem; }
+
+.analytics__stat-value {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  color: var(--cream);
+  line-height: 1;
+}
+
+.analytics__stat-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.analytics__chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 140px;
+  padding-top: 1.5rem;
+}
+
+.analytics__bar-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.analytics__bar-count {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.analytics__bar {
+  width: 100%;
+  background: var(--tangerine);
+  border-radius: 2px 2px 0 0;
+  min-height: 4px;
+  transition: height 0.4s ease;
+  opacity: 0.85;
+}
+
+.analytics__bar-date {
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.analytics__empty {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.analytics__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.analytics__table th {
+  text-align: left;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.analytics__table td {
+  padding: 0.6rem 0.75rem;
+  color: var(--cream);
+  border-bottom: 1px solid rgba(255,248,204,0.05);
+}
+
+.analytics__table tr:last-child td { border-bottom: none; }

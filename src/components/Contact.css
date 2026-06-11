@@ -1,0 +1,213 @@
+.contact { background: var(--bg); padding-bottom: 0; }
+
+.contact__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+  padding-bottom: 6rem;
+}
+
+.contact__sub {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  line-height: 1.8;
+}
+
+.contact__info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.contact__info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.contact__info-item:hover { color: var(--cream); }
+
+.contact__info-icon {
+  width: 28px;
+  height: 28px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.contact__booking { margin-bottom: 2rem; }
+
+.contact__booking-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.contact__booking-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.contact__booking-btns .btn {
+  font-size: 0.75rem;
+  padding: 0.65rem 1.25rem;
+}
+
+.contact__socials-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.contact__socials-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.contact__social-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.contact__social-pill:hover {
+  border-color: var(--tangerine);
+  color: var(--tangerine);
+  transform: translateY(-1px);
+}
+
+.contact__social-icon {
+  width: 18px;
+  height: 18px;
+  background: rgba(223,152,65,0.15);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+  font-weight: 800;
+  color: var(--tangerine);
+}
+
+/* Form */
+.contact__form-wrap {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--tangerine);
+  border-radius: 2px;
+  padding: 2rem;
+}
+
+.contact__form-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--cream);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.04em;
+}
+
+.contact__form { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.contact__field { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.contact__field label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.contact__field input,
+.contact__field textarea {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--cream);
+  transition: border-color 0.2s;
+  resize: vertical;
+}
+
+.contact__field input::placeholder,
+.contact__field textarea::placeholder { color: rgba(255,248,221,0.2); }
+
+.contact__field input:focus,
+.contact__field textarea:focus { outline: none; border-color: var(--tangerine); }
+
+.contact__submit { width: 100%; justify-content: center; padding: 0.9rem; }
+
+.contact__feedback {
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 0.5rem;
+  border-radius: 2px;
+}
+.contact__feedback--success { color: #9AB19A; background: rgba(154,177,154,0.1); border: 1px solid rgba(154,177,154,0.25); }
+.contact__feedback--error { color: #ff8070; background: rgba(255,100,80,0.08); border: 1px solid rgba(255,100,80,0.2); }
+
+/* Footer */
+.contact__footer {
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 0;
+  text-align: center;
+}
+
+.contact__footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.contact__footer-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--cream);
+  letter-spacing: 0.05em;
+}
+
+.contact__footer-name span { color: var(--tangerine); }
+
+.contact__footer-tagline {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--tangerine);
+  margin-bottom: 0.25rem;
+}
+
+.contact__footer-copy { font-size: 0.68rem; color: var(--text-muted); }
+
+@media (max-width: 900px) {
+  .contact__inner { grid-template-columns: 1fr; gap: 3rem; }
+}

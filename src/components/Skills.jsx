@@ -91,7 +91,7 @@ export default function Skills() {
             <div className="skills__tags-section">
               <p className="skills__tags-label">Also familiar with</p>
               <div className="skills__tags">
-                {["REST APIs", "Webhooks", "Figma", "Vercel", "Cloudflare", "Linux", "Postman", "VS Code", "Formspree", "SheetJS"].map(
+                {["Trello", "Clockify", "Calendly", "Infinityfree", "Branding", "Graphic Design", "Social Media Management", "Data Entry", "Formspree", "PHPMailer"].map(
                   (t) => <span key={t} className="tag">{t}</span>
                 )}
               </div>

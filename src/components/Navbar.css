@@ -26,11 +26,13 @@
   align-items: center;
   gap: 0.85rem;
   text-decoration: none;
+  position: relative;
+  z-index: 110;
 }
 
 .navbar__logo-img {
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
 }
 
@@ -80,29 +82,91 @@
   transform: translateY(-1px);
 }
 
+/* Hamburger button */
 .navbar__burger {
   display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   flex-direction: column;
   gap: 5px;
   background: none;
-  border: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
   cursor: pointer;
   padding: 4px;
+  position: relative;
+  z-index: 110;
+  transition: border-color 0.2s;
+}
+
+.navbar__burger:hover {
+  border-color: var(--tangerine);
 }
 
 .navbar__burger span {
   display: block;
-  width: 22px;
+  width: 18px;
   height: 2px;
   background: var(--cream);
   border-radius: 1px;
   transition: all 0.2s;
 }
 
+.navbar__burger-x {
+  font-size: 1rem;
+  color: var(--cream);
+  line-height: 1;
+}
+
+/* Close button inside sidebar (mobile only) */
+.navbar__close-item {
+  display: none;
+}
+
+/* Overlay */
+.navbar__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 99;
+}
+
 @media (max-width: 768px) {
-  .navbar__burger { display: flex; }
+  .navbar__burger {
+    display: flex;
+  }
+
   .navbar__logo-img { width: 56px; height: 56px; }
   .navbar__logo-text { font-size: 1.6rem; }
+
+  .navbar__close-item {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .navbar__close {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--cream);
+    font-size: 1rem;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .navbar__close:hover {
+    border-color: var(--tangerine);
+    color: var(--tangerine);
+  }
 
   .navbar__links {
     position: fixed;
@@ -114,10 +178,11 @@
     background: var(--bg2);
     flex-direction: column;
     justify-content: center;
-    gap: 2rem;
+    gap: 1.75rem;
     padding: 2rem;
     transition: right 0.3s ease;
     border-left: 1px solid var(--border);
+    z-index: 100;
   }
 
   .navbar__links--open { right: 0; }

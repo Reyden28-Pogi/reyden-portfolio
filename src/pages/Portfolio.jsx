@@ -17,8 +17,8 @@ export default function Portfolio() {
       <Navbar data={data} />
       <Hero data={data} />
       <About data={data} />
-      <Projects data={data} />
-      <Certificates data={data} />
+      <Projects />
+      <Certificates />
       <Skills data={data} />
       <Pricing data={data} />
       <Contact data={data} />

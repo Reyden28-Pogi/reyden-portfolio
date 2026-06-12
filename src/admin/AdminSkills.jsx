@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabaseClient";
 
-const CATEGORIES = ["Frontend", "Backend", "Database", "Automation", "Tools", "DevOps"];
+const CATEGORIES = ["Frontend", "Backend", "Database", "Automation", "Design", "Tools", "DevOps"];
 const EMPTY = { name: "", category: "Frontend", level: 80 };
 
 export default function AdminSkills() {

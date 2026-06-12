@@ -19,7 +19,7 @@ export default function Portfolio() {
       <About data={data} />
       <Projects />
       <Certificates />
-      <Skills data={data} />
+      <Skills />
       <Pricing data={data} />
       <Contact data={data} />
     </>

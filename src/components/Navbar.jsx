@@ -36,7 +36,7 @@ export default function Navbar({ data }) {
       <div className="navbar__inner container">
         <a href="#hero" className="navbar__logo">
           <img src={logo} alt="Quiverto Solutions" className="navbar__logo-img" />
-          <span className="navbar__logo-text">Reyden<span className="navbar__logo-dot">.</span></span>
+          <span className="navbar__logo-text">Quiverto Solutions<span className="navbar__logo-dot">.</span></span>
         </a>
 
         <ul className={`navbar__links ${menuOpen ? "navbar__links--open" : ""}`}>

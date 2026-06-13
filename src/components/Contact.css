@@ -211,19 +211,3 @@
 @media (max-width: 900px) {
   .contact__inner { grid-template-columns: 1fr; gap: 3rem; }
 }
-
-/* SVG icon sizing inside pills */
-.contact__social-icon svg {
-  width: 14px;
-  height: 14px;
-  display: block;
-}
-
-.contact__social-icon {
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}

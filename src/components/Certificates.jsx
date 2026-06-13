@@ -1,23 +1,7 @@
-import { useEffect, useState } from "react";
-import { supabase } from "../lib/supabaseClient";
 import "./Certificates.css";
 
-export default function Certificates() {
-  const [certs, setCerts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchCerts = async () => {
-      const { data, error } = await supabase
-        .from("certificates")
-        .select("*")
-        .order("id", { ascending: false });
-
-      if (!error) setCerts(data || []);
-      setLoading(false);
-    };
-    fetchCerts();
-  }, []);
+export default function Certificates({ data }) {
+  const certs = data?.certificates || [];
 
   return (
     <section className="section certificates" id="certificates">
@@ -26,11 +10,7 @@ export default function Certificates() {
         <h2 className="section-title">Certificates</h2>
         <div className="divider" />
 
-        {loading ? (
-          <div className="certificates__empty">
-            <p>Loading certificates...</p>
-          </div>
-        ) : certs.length === 0 ? (
+        {certs.length === 0 || (certs.length === 1 && !certs[0].link && certs[0].title === "Certificate Title") ? (
           <div className="certificates__empty">
             <p>Certificates coming soon.</p>
           </div>
@@ -48,7 +28,7 @@ export default function Certificates() {
 
 function CertCard({ cert }) {
   return (
-    <div className="cert-card">
+    <div className="cert-card hover-lift hover-glow">
       <div className="cert-card__icon">🏆</div>
       <div className="cert-card__body">
         <p className="cert-card__issuer">{cert.issuer}</p>

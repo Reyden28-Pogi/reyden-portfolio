@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { usePortfolioData, useVisitTracker } from "../hooks/usePortfolioData";
+import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import About from "../components/About";
@@ -11,6 +13,7 @@ import Contact from "../components/Contact";
 export default function Portfolio() {
   const { data } = usePortfolioData();
   useVisitTracker();
+  useScrollAnimation();
 
   return (
     <>

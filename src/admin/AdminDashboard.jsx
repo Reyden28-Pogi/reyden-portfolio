@@ -29,9 +29,9 @@ export default function AdminDashboard({ data, update, onLogout }) {
       case "analytics":    return <AdminAnalytics />;
       case "hero":         return <AdminHero data={data} update={update} />;
       case "about":        return <AdminAbout data={data} update={update} />;
-      case "skills":       return <AdminSkills />;
-      case "projects":     return <AdminProjects />;
-      case "certificates": return <AdminCertificates />;
+      case "skills":       return <AdminSkills data={data} update={update} />;
+      case "projects":     return <AdminProjects data={data} update={update} />;
+      case "certificates": return <AdminCertificates data={data} update={update} />;
       case "pricing":      return <AdminPricing data={data} update={update} />;
       case "contact":      return <AdminContact data={data} update={update} />;
       default: return null;

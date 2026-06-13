@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { DEFAULT_DATA } from "../data/defaults";
+import { supabase } from "../lib/supabaseClient";
 
 const STORAGE_KEY = "reyden_portfolio";
-const VISITS_KEY = "reyden_visits";
 
 export function usePortfolioData() {
   const [data, setData] = useState(() => {
@@ -27,38 +27,48 @@ export function usePortfolioData() {
 
 export function useVisitTracker() {
   useEffect(() => {
-    try {
-      const visits = JSON.parse(localStorage.getItem(VISITS_KEY) || "[]");
-      const today = new Date().toISOString().split("T")[0];
-      const existing = visits.find((v) => v.date === today);
-      if (existing) {
-        existing.count += 1;
-      } else {
-        visits.push({ date: today, count: 1, page: window.location.pathname });
-      }
-      // Keep last 90 days
-      const cutoff = new Date();
-      cutoff.setDate(cutoff.getDate() - 90);
-      const trimmed = visits.filter((v) => new Date(v.date) > cutoff);
-      localStorage.setItem(VISITS_KEY, JSON.stringify(trimmed));
-    } catch {}
+    const trackVisit = async () => {
+      try {
+        const today = new Date().toISOString().split("T")[0];
+        const sessionKey = `visited_${today}`;
+        if (sessionStorage.getItem(sessionKey)) return;
+        sessionStorage.setItem(sessionKey, "1");
+
+        const { data: existing } = await supabase
+          .from("visits")
+          .select("id, count")
+          .eq("date", today)
+          .single();
+
+        if (existing) {
+          await supabase.from("visits").update({ count: existing.count + 1 }).eq("id", existing.id);
+        } else {
+          await supabase.from("visits").insert([{ date: today, count: 1 }]);
+        }
+      } catch {}
+    };
+    trackVisit();
   }, []);
 }
 
-export function getVisitStats() {
+export async function getVisitStats() {
   try {
-    const visits = JSON.parse(localStorage.getItem(VISITS_KEY) || "[]");
+    const { data: visits, error } = await supabase
+      .from("visits")
+      .select("*")
+      .order("date", { ascending: false })
+      .limit(90);
+
+    if (error || !visits) return { total: 0, today: 0, week: 0, history: [] };
+
     const total = visits.reduce((sum, v) => sum + v.count, 0);
     const today = new Date().toISOString().split("T")[0];
     const todayVisits = visits.find((v) => v.date === today)?.count || 0;
-
     const last7 = new Date();
     last7.setDate(last7.getDate() - 7);
-    const weekVisits = visits
-      .filter((v) => new Date(v.date) > last7)
-      .reduce((sum, v) => sum + v.count, 0);
+    const weekVisits = visits.filter((v) => new Date(v.date) > last7).reduce((sum, v) => sum + v.count, 0);
 
-    return { total, today: todayVisits, week: weekVisits, history: visits.slice(-30) };
+    return { total, today: todayVisits, week: weekVisits, history: [...visits].reverse() };
   } catch {
     return { total: 0, today: 0, week: 0, history: [] };
   }

@@ -6,14 +6,13 @@ export default function About({ data }) {
   return (
     <section className="section about" id="about">
       <div className="container about__inner">
-        <div className="about__left">
+        <div className="about__left" data-animate="left">
           <p className="section-label">About Me</p>
           <h2 className="section-title">{a.headline || "Forward-Thinking. Bold. Visionary."}</h2>
           <div className="divider" />
           {(a.body || "").split("\n\n").map((para, i) => (
             <p key={i} className="about__para">{para}</p>
           ))}
-
           <div className="about__meta">
             <div className="about__meta-item">
               <span className="about__meta-label">Location</span>
@@ -28,18 +27,16 @@ export default function About({ data }) {
           </div>
         </div>
 
-        <div className="about__right">
-          <div className="about__card">
+        <div className="about__right" data-animate="right">
+          <div className="about__card hover-lift hover-glow">
             <p className="about__card-label">Fascination Advantage</p>
             <p className="about__card-advantage">Innovation</p>
             <p className="about__card-sub">Your brand speaks the language of creativity</p>
-
             <div className="about__adjectives">
               {(a.adjectives || []).map((adj, i) => (
                 <span key={i} className="tag">{adj}</span>
               ))}
             </div>
-
             <div className="about__pillars">
               <p className="about__pillars-title">Core Pillars</p>
               <ul>
@@ -52,18 +49,16 @@ export default function About({ data }) {
           </div>
 
           <div className="about__stats">
-            <div className="about__stat">
-              <span className="about__stat-num">3+</span>
-              <span className="about__stat-label">Years Coding</span>
-            </div>
-            <div className="about__stat">
-              <span className="about__stat-num">10+</span>
-              <span className="about__stat-label">Projects Built</span>
-            </div>
-            <div className="about__stat">
-              <span className="about__stat-num">5+</span>
-              <span className="about__stat-label">Tech Stacks</span>
-            </div>
+            {[
+              { num: "3+", label: "Years Coding" },
+              { num: "10+", label: "Projects Built" },
+              { num: "5+", label: "Tech Stacks" },
+            ].map((s, i) => (
+              <div key={i} className="about__stat hover-lift" data-delay={String(i + 1)}>
+                <span className="about__stat-num">{s.num}</span>
+                <span className="about__stat-label">{s.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

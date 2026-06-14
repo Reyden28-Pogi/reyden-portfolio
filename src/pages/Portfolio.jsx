@@ -1,10 +1,11 @@
 import { usePortfolioData, useVisitTracker } from "../hooks/usePortfolioData";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
+import MarqueeBanner from "../components/MarqueeBanner";
 import About from "../components/About";
-import Skills from "../components/Skills";
 import Projects from "../components/Projects";
 import Certificates from "../components/Certificates";
+import Skills from "../components/Skills";
 import Pricing from "../components/Pricing";
 import Contact from "../components/Contact";
 import ConsentBanner from "../components/ConsentBanner";
@@ -17,6 +18,7 @@ export default function Portfolio() {
     <>
       <Navbar data={data} />
       <Hero data={data} />
+      <MarqueeBanner />
       <About data={data} />
       <Projects data={data} />
       <Certificates data={data} />

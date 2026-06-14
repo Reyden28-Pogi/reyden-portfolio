@@ -172,3 +172,19 @@
   .hero__scroll-hint { display: none; }
   .hero__name { font-size: clamp(2.8rem, 10vw, 4.5rem); }
 }
+/* Append these lines to your existing Hero.css */
+.hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.hero__eyebrow i { font-size: 1rem; }
+
+.hero__social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.hero__social-link i { font-size: 1rem; }

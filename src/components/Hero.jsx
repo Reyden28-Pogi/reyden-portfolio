@@ -5,7 +5,6 @@ export default function Hero({ data }) {
   const h = data?.hero || {};
   const canvasRef = useRef(null);
 
-  // Subtle particle/grain effect on canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -39,7 +38,7 @@ export default function Hero({ data }) {
         if (p.y > canvas.height) p.y = 0;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(173,115,65,${p.o})`;
+        ctx.fillStyle = `rgba(223,152,65,${p.o})`;
         ctx.fill();
       });
       animId = requestAnimationFrame(draw);
@@ -55,7 +54,6 @@ export default function Hero({ data }) {
   return (
     <section className="hero" id="hero">
       <canvas ref={canvasRef} className="hero__canvas" />
-
       <div className="hero__noise" />
 
       <div className="container hero__inner">
@@ -69,11 +67,11 @@ export default function Hero({ data }) {
         </div>
 
         <p className="hero__eyebrow">
-          {h.role || "Full-Stack Developer & Freelancer"}
+          <i className="bx bx-code-alt" /> {h.role || "Full-Stack Developer & Freelancer"}
         </p>
 
         <h1 className="hero__name">
-          {(h.name || "Reyden Rogon Fajiculay")
+          {(h.name || "Reyden Fajiculay")
             .split(" ")
             .map((word, i) => (
               <span key={i} className="hero__name-word" style={{ animationDelay: `${i * 0.12}s` }}>
@@ -82,26 +80,32 @@ export default function Hero({ data }) {
             ))}
         </h1>
 
-        <p className="hero__tagline">
-          "{h.tagline || "Turning Innovation into Advantage"}"
-        </p>
-
+        <p className="hero__tagline">"{h.tagline || "Turning Innovation into Advantage"}"</p>
         <p className="hero__bio">{h.bio}</p>
 
         <div className="hero__actions">
-          <a href="#projects" className="btn btn-primary">View My Work</a>
-          <a href={`mailto:${h.email}`} className="btn btn-outline">Get in Touch</a>
+          <a href="#projects" className="btn btn-primary">
+            <i className="bx bx-folder-open" /> View My Work
+          </a>
+          <a href={`mailto:${h.email}`} className="btn btn-outline">
+            <i className="bx bx-envelope" /> Get in Touch
+          </a>
         </div>
 
         <div className="hero__socials">
           {h.github && (
             <a href={h.github} target="_blank" rel="noopener noreferrer" className="hero__social-link">
-              GitHub
+              <i className="bx bxl-github" /> GitHub
             </a>
           )}
           {h.linkedin && (
             <a href={h.linkedin} target="_blank" rel="noopener noreferrer" className="hero__social-link">
-              LinkedIn
+              <i className="bx bxl-linkedin-square" /> LinkedIn
+            </a>
+          )}
+          {h.upwork && (
+            <a href={h.upwork} target="_blank" rel="noopener noreferrer" className="hero__social-link">
+              <i className="bx bxl-upwork" /> Upwork
             </a>
           )}
         </div>

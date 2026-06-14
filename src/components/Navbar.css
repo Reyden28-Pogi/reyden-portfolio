@@ -44,16 +44,17 @@
   line-height: 1;
 }
 
-.navbar__logo-dot {
-  color: var(--tangerine);
-}
+.navbar__logo-dot { color: var(--tangerine); }
 
+/* Nav links */
 .navbar__links {
   display: flex;
   align-items: center;
   gap: 2.5rem;
   list-style: none;
 }
+
+.navbar__links li { position: relative; }
 
 .navbar__links a {
   font-size: 0.75rem;
@@ -62,12 +63,37 @@
   text-transform: uppercase;
   color: var(--text-muted);
   transition: color 0.2s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
-.navbar__links a:hover {
-  color: var(--cream);
+.navbar__links a:hover { color: var(--cream); }
+
+/* Active link */
+.navbar__link--active {
+  color: var(--cream) !important;
 }
 
+/* Active dot indicator */
+.navbar__active-dot {
+  display: block;
+  width: 4px;
+  height: 4px;
+  background: var(--tangerine);
+  border-radius: 50%;
+  margin: 0 auto;
+  animation: dot-pop 0.3s ease both;
+}
+
+@keyframes dot-pop {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* CTA button */
 .navbar__cta {
   padding: 0.5rem 1.25rem !important;
   background: var(--tangerine) !important;
@@ -75,6 +101,8 @@
   border-radius: 2px;
   font-size: 0.7rem !important;
   transition: background 0.2s, transform 0.2s !important;
+  flex-direction: row !important;
+  gap: 0 !important;
 }
 
 .navbar__cta:hover {
@@ -82,47 +110,47 @@
   transform: translateY(-1px);
 }
 
-/* Hamburger button */
+/* Hamburger → X */
 .navbar__burger {
   display: none;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 5px;
   width: 36px;
   height: 36px;
-  flex-direction: column;
-  gap: 5px;
   background: none;
   border: 1px solid var(--border);
   border-radius: 4px;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
   position: relative;
   z-index: 110;
   transition: border-color 0.2s;
 }
 
-.navbar__burger:hover {
-  border-color: var(--tangerine);
-}
+.navbar__burger:hover { border-color: var(--tangerine); }
 
-.navbar__burger span {
+.navbar__burger-line {
   display: block;
   width: 18px;
   height: 2px;
   background: var(--cream);
   border-radius: 1px;
-  transition: all 0.2s;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
 }
 
-.navbar__burger-x {
-  font-size: 1rem;
-  color: var(--cream);
-  line-height: 1;
+/* X state */
+.navbar__burger--open .navbar__burger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
 }
-
-/* Close button inside sidebar (mobile only) */
-.navbar__close-item {
-  display: none;
+.navbar__burger--open .navbar__burger-line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.navbar__burger--open .navbar__burger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* Overlay */
@@ -134,39 +162,10 @@
 }
 
 @media (max-width: 768px) {
-  .navbar__burger {
-    display: flex;
-  }
+  .navbar__burger { display: flex; }
 
   .navbar__logo-img { width: 56px; height: 56px; }
   .navbar__logo-text { font-size: 1.6rem; }
-
-  .navbar__close-item {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    margin-bottom: 0.5rem;
-  }
-
-  .navbar__close {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--cream);
-    font-size: 1rem;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color 0.2s, color 0.2s;
-  }
-
-  .navbar__close:hover {
-    border-color: var(--tangerine);
-    color: var(--tangerine);
-  }
 
   .navbar__links {
     position: fixed;
@@ -178,13 +177,26 @@
     background: var(--bg2);
     flex-direction: column;
     justify-content: center;
-    gap: 1.75rem;
-    padding: 2rem;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 2.5rem;
     transition: right 0.3s ease;
     border-left: 1px solid var(--border);
     z-index: 100;
   }
 
   .navbar__links--open { right: 0; }
-  .navbar__links a { font-size: 0.85rem; }
+
+  .navbar__links a {
+    font-size: 0.9rem;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .navbar__active-dot {
+    width: 6px;
+    height: 6px;
+    margin: 0;
+  }
 }

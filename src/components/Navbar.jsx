@@ -5,6 +5,7 @@ import "./Navbar.css";
 export default function Navbar({ data }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -12,6 +13,26 @@ export default function Navbar({ data }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Active section detector
+  useEffect(() => {
+    const sectionIds = ["hero", "about", "projects", "certificates", "pricing", "contact"];
+    const observers = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
+        { threshold: 0.3 }
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  // Close on outside click
   useEffect(() => {
     if (!menuOpen) return;
     const handleOutside = (e) => {
@@ -34,38 +55,48 @@ export default function Navbar({ data }) {
   return (
     <nav className={`navbar ${scrolled ? "navbar--scrolled" : ""}`}>
       <div className="navbar__inner container">
+
         <a href="#hero" className="navbar__logo">
           <img src={logo} alt="Quiverto Solutions" className="navbar__logo-img" />
-          <span className="navbar__logo-text">Quiverto Solutions<span className="navbar__logo-dot">.</span></span>
+          <span className="navbar__logo-text">
+            Quiverto Solutions<span className="navbar__logo-dot">.</span>
+          </span>
         </a>
 
         <ul className={`navbar__links ${menuOpen ? "navbar__links--open" : ""}`}>
-          {/* X button — inside sidebar only */}
-          <li className="navbar__close-item">
-            <button className="navbar__close" onClick={() => setMenuOpen(false)} aria-label="Close menu">
-              ✕
-            </button>
-          </li>
-
           {links.map((link) => (
             <li key={link.label}>
-              <a href={`#${link.id}`} onClick={() => setMenuOpen(false)}>{link.label}</a>
+              <a
+                href={`#${link.id}`}
+                onClick={() => setMenuOpen(false)}
+                className={activeSection === link.id ? "navbar__link--active" : ""}
+              >
+                {link.label}
+                {activeSection === link.id && <span className="navbar__active-dot" />}
+              </a>
             </li>
           ))}
           <li>
-            <a href={data?.contact?.zoom || "#contact"} target="_blank" rel="noopener noreferrer" className="navbar__cta">
+            <a
+              href={data?.contact?.zoom || "#contact"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="navbar__cta"
+            >
               Book a Call
             </a>
           </li>
         </ul>
 
-        {/* Hamburger only — no X toggle */}
+        {/* Hamburger ☰ → X toggle */}
         <button
-          className="navbar__burger"
+          className={`navbar__burger ${menuOpen ? "navbar__burger--open" : ""}`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
-          <span /><span /><span />
+          <span className="navbar__burger-line" />
+          <span className="navbar__burger-line" />
+          <span className="navbar__burger-line" />
         </button>
       </div>
 

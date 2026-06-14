@@ -40,6 +40,7 @@ export default function Navbar({ data }) {
         </a>
 
         <ul className={`navbar__links ${menuOpen ? "navbar__links--open" : ""}`}>
+          {/* X button — inside sidebar only */}
           <li className="navbar__close-item">
             <button className="navbar__close" onClick={() => setMenuOpen(false)} aria-label="Close menu">
               ✕
@@ -58,16 +59,13 @@ export default function Navbar({ data }) {
           </li>
         </ul>
 
+        {/* Hamburger only — no X toggle */}
         <button
-          className={`navbar__burger ${menuOpen ? "navbar__burger--open" : ""}`}
+          className="navbar__burger"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
-          {menuOpen ? (
-            <span className="navbar__burger-x">✕</span>
-          ) : (
-            <><span /><span /><span /></>
-          )}
+          <span /><span /><span />
         </button>
       </div>
 

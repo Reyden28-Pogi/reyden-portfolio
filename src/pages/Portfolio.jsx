@@ -7,6 +7,7 @@ import Projects from "../components/Projects";
 import Certificates from "../components/Certificates";
 import Pricing from "../components/Pricing";
 import Contact from "../components/Contact";
+import ConsentBanner from "../components/ConsentBanner";
 
 export default function Portfolio() {
   const { data } = usePortfolioData();
@@ -17,11 +18,12 @@ export default function Portfolio() {
       <Navbar data={data} />
       <Hero data={data} />
       <About data={data} />
-      <Projects />
-      <Certificates />
-      <Skills />
+      <Projects data={data} />
+      <Certificates data={data} />
+      <Skills data={data} />
       <Pricing data={data} />
       <Contact data={data} />
+      <ConsentBanner />
     </>
   );
 }

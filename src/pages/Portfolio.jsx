@@ -21,10 +21,10 @@ export default function Portfolio() {
       <MarqueeBanner />
       <About data={data} />
       <Projects data={data} />
-      <Certificates data={data} />
-      <Skills data={data} />
+      <Certificates />
+      <Skills />
       <Pricing data={data} />
-      <Contact data={data} />
+      <Contact />
       <ConsentBanner />
     </>
   );

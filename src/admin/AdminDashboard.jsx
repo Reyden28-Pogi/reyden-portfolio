@@ -33,7 +33,7 @@ export default function AdminDashboard({ data, update, onLogout }) {
       case "projects":     return <AdminProjects />;
       case "certificates": return <AdminCertificates />;
       case "pricing":      return <AdminPricing data={data} update={update} />;
-      case "contact":      return <AdminContact data={data} update={update} />;
+      case "contact":      return <AdminContact />;
       default: return null;
     }
   };
@@ -47,7 +47,9 @@ export default function AdminDashboard({ data, update, onLogout }) {
         </div>
         <nav className="admin-sidebar__nav">
           {NAV.map((item) => (
-            <button key={item.id} className={`admin-sidebar__link ${active === item.id ? "admin-sidebar__link--active" : ""}`} onClick={() => { setActive(item.id); setSidebarOpen(false); }}>
+            <button key={item.id}
+              className={`admin-sidebar__link ${active === item.id ? "admin-sidebar__link--active" : ""}`}
+              onClick={() => { setActive(item.id); setSidebarOpen(false); }}>
               <span className="admin-sidebar__icon">{item.icon}</span>
               {item.label}
             </button>

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "../lib/supabaseClient";
 import "./Contact.css";
 
 const SOCIALS = [
@@ -11,17 +12,21 @@ const SOCIALS = [
   { key: "youtube",  label: "YouTube",  icon: "bxl-youtube" },
 ];
 
-export default function Contact({ data }) {
-  const c = data?.contact || {};
-  const h = data?.hero || {};
+export default function Contact() {
+  const [c, setC] = useState(null);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    supabase.from("contact_settings").select("*").limit(1).single()
+      .then(({ data }) => { if (data) setC(data); });
+  }, []);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!c.formspree) { setStatus("success"); return; }
+    if (!c?.formspree) { setStatus("success"); return; }
     setStatus("sending");
     try {
       const res = await fetch(`https://formspree.io/f/${c.formspree}`, {
@@ -33,33 +38,34 @@ export default function Contact({ data }) {
     } catch { setStatus("error"); }
   };
 
-  const activeSocials = SOCIALS.filter((s) => h[s.key]);
+  const activeSocials = SOCIALS.filter((s) => c?.[s.key]);
 
   return (
     <section className="section contact" id="contact">
       <div className="container contact__inner">
-
         <div className="contact__left">
           <p className="section-label">Work With Me</p>
-          <h2 className="section-title">{c.heading || "Let's Build Something"}</h2>
+          <h2 className="section-title">{c?.heading || "Let's Build Something"}</h2>
           <div className="divider" />
-          <p className="contact__sub">{c.subheading}</p>
+          <p className="contact__sub">{c?.subheading}</p>
 
           <div className="contact__info-list">
-            <a href={`mailto:${c.email}`} className="contact__info-item">
-              <span className="contact__info-icon"><i className="bx bx-envelope" /></span>
-              <span>{c.email}</span>
-            </a>
-            {c.phone && (
+            {c?.email && (
+              <a href={`mailto:${c.email}`} className="contact__info-item">
+                <span className="contact__info-icon"><i className="bx bx-envelope" /></span>
+                <span>{c.email}</span>
+              </a>
+            )}
+            {c?.phone && (
               <a href={`tel:${c.phone}`} className="contact__info-item">
                 <span className="contact__info-icon"><i className="bx bx-phone" /></span>
                 <span>{c.phone}</span>
               </a>
             )}
-            {h.location && (
+            {c?.location && (
               <div className="contact__info-item">
                 <span className="contact__info-icon"><i className="bx bx-map" /></span>
-                <span>{h.location}</span>
+                <span>{c.location}</span>
               </div>
             )}
           </div>
@@ -67,12 +73,12 @@ export default function Contact({ data }) {
           <div className="contact__booking">
             <p className="contact__booking-label">Schedule a Meeting</p>
             <div className="contact__booking-btns">
-              {c.calendly && (
+              {c?.calendly && (
                 <a href={`https://calendly.com/${c.calendly}`} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                   <i className="bx bx-calendar" /> Book via Calendly
                 </a>
               )}
-              {c.zoom && (
+              {c?.zoom && (
                 <a href={c.zoom} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
                   <i className="bx bx-video" /> Join Zoom Call
                 </a>
@@ -85,14 +91,7 @@ export default function Contact({ data }) {
               <p className="contact__socials-label">Find Me Online</p>
               <div className="contact__socials-grid">
                 {activeSocials.map((s) => (
-                  <a
-                    key={s.key}
-                    href={h[s.key]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="contact__social-pill"
-                    title={s.label}
-                  >
+                  <a key={s.key} href={c[s.key]} target="_blank" rel="noopener noreferrer" className="contact__social-pill">
                     <i className={`bx ${s.icon} contact__social-icon`} />
                     {s.label}
                   </a>
@@ -134,7 +133,7 @@ export default function Contact({ data }) {
           <p className="contact__footer-tagline">"Turning Innovation into Advantage"</p>
           <div className="contact__footer-socials">
             {activeSocials.map((s) => (
-              <a key={s.key} href={h[s.key]} target="_blank" rel="noopener noreferrer" className="contact__footer-social" title={s.label}>
+              <a key={s.key} href={c[s.key]} target="_blank" rel="noopener noreferrer" className="contact__footer-social" title={s.label}>
                 <i className={`bx ${s.icon}`} />
               </a>
             ))}

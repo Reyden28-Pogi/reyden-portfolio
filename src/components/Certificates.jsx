@@ -5,17 +5,11 @@ import "./Certificates.css";
 export default function Certificates() {
   const [certs, setCerts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [lightbox, setLightbox] = useState(null);
 
   useEffect(() => {
-    const fetchCerts = async () => {
-      const { data, error } = await supabase
-        .from("certificates")
-        .select("*")
-        .order("id", { ascending: false });
-      if (!error) setCerts(data || []);
-      setLoading(false);
-    };
-    fetchCerts();
+    supabase.from("certificates").select("*").order("id", { ascending: false })
+      .then(({ data }) => { setCerts(data || []); setLoading(false); });
   }, []);
 
   return (
@@ -38,52 +32,76 @@ export default function Certificates() {
         ) : (
           <div className="certificates__grid">
             {certs.map((cert, i) => (
-              <CertCard key={cert.id} cert={cert} index={i} />
+              <CertCard key={cert.id} cert={cert} index={i} onView={setLightbox} />
             ))}
           </div>
         )}
       </div>
+
+      {/* Lightbox */}
+      {lightbox && (
+        <div className="cert-lightbox" onClick={() => setLightbox(null)}>
+          <div className="cert-lightbox__inner" onClick={(e) => e.stopPropagation()}>
+            <button className="cert-lightbox__close" onClick={() => setLightbox(null)}>
+              <i className="bx bx-x" />
+            </button>
+            {lightbox.image_url && (
+              <img src={lightbox.image_url} alt={lightbox.title} className="cert-lightbox__img" />
+            )}
+            <div className="cert-lightbox__info">
+              <p className="cert-lightbox__issuer">
+                <i className="bx bx-buildings" /> {lightbox.issuer}
+              </p>
+              <h3 className="cert-lightbox__title">{lightbox.title}</h3>
+              <p className="cert-lightbox__date">
+                <i className="bx bx-calendar-check" /> {lightbox.date}
+              </p>
+              {lightbox.link && (
+                <a href={lightbox.link} target="_blank" rel="noopener noreferrer" className="cert-lightbox__link">
+                  <i className="bx bx-link-external" /> View Original
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
 
-function CertCard({ cert, index }) {
+function CertCard({ cert, index, onView }) {
   return (
-    <div className="cert-card" style={{ animationDelay: `${index * 0.1}s` }}>
-      <div className="cert-card__header">
-        <div className="cert-card__icon-wrap">
-          <i className="bx bxs-medal" />
-        </div>
-        {cert.link && (
-          <a
-            href={cert.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="cert-card__view-btn"
-            title="View Certificate"
-          >
-            <i className="bx bx-link-external" />
-            View
-          </a>
+    <div className="cert-card" style={{ animationDelay: `${index * 0.1}s` }} onClick={() => onView(cert)}>
+      {/* Image or icon */}
+      <div className="cert-card__image-wrap">
+        {cert.image_url ? (
+          <>
+            <img src={cert.image_url} alt={cert.title} className="cert-card__image" />
+            <div className="cert-card__overlay">
+              <i className="bx bx-zoom-in" />
+              <span>View Certificate</span>
+            </div>
+          </>
+        ) : (
+          <div className="cert-card__no-image">
+            <i className="bx bxs-medal" />
+          </div>
         )}
       </div>
 
       <div className="cert-card__body">
         <p className="cert-card__issuer">
-          <i className="bx bx-buildings" />
-          {cert.issuer}
+          <i className="bx bx-buildings" /> {cert.issuer}
         </p>
         <h3 className="cert-card__title">{cert.title}</h3>
       </div>
 
       <div className="cert-card__footer">
         <span className="cert-card__date">
-          <i className="bx bx-calendar-check" />
-          {cert.date}
+          <i className="bx bx-calendar-check" /> {cert.date}
         </span>
         <span className="cert-card__badge">
-          <i className="bx bxs-check-shield" />
-          Verified
+          <i className="bx bxs-check-shield" /> Verified
         </span>
       </div>
     </div>

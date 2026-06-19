@@ -1,9 +1,19 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { supabase } from "../lib/supabaseClient";
 import "./Hero.css";
 
 export default function Hero({ data }) {
   const h = data?.hero || {};
   const canvasRef = useRef(null);
+  const [profileUrl, setProfileUrl] = useState(null);
+
+  // Fetch profile photo from Supabase storage
+  useEffect(() => {
+    const { data: urlData } = supabase.storage
+      .from("profile")
+      .getPublicUrl("profile-photo");
+    if (urlData?.publicUrl) setProfileUrl(urlData.publicUrl);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -57,58 +67,79 @@ export default function Hero({ data }) {
       <div className="hero__noise" />
 
       <div className="container hero__inner">
-        <div className="hero__available">
-          {data?.about?.available && (
-            <span className="hero__badge">
-              <span className="hero__dot" />
-              Available for projects
-            </span>
-          )}
-        </div>
 
-        <p className="hero__eyebrow">
-          <i className="bx bx-code-alt" /> {h.role || "Full-Stack Developer & Freelancer"}
-        </p>
-
-        <h1 className="hero__name">
-          {(h.name || "Reyden Fajiculay")
-            .split(" ")
-            .map((word, i) => (
-              <span key={i} className="hero__name-word" style={{ animationDelay: `${i * 0.12}s` }}>
-                {word}
+        {/* Left — text content */}
+        <div className="hero__content">
+          <div className="hero__available">
+            {data?.about?.available && (
+              <span className="hero__badge">
+                <span className="hero__dot" />
+                Available for projects
               </span>
-            ))}
-        </h1>
+            )}
+          </div>
 
-        <p className="hero__tagline">"{h.tagline || "Turning Innovation into Advantage"}"</p>
-        <p className="hero__bio">{h.bio}</p>
+          <p className="hero__eyebrow">
+            <i className="bx bx-code-alt" /> {h.role || "Full-Stack Developer & Freelancer"}
+          </p>
 
-        <div className="hero__actions">
-          <a href="#projects" className="btn btn-primary">
-            <i className="bx bx-folder-open" /> View My Work
-          </a>
-          <a href={`mailto:${h.email}`} className="btn btn-outline">
-            <i className="bx bx-envelope" /> Get in Touch
-          </a>
+          <h1 className="hero__name">
+            {(h.name || "Reyden Fajiculay")
+              .split(" ")
+              .map((word, i) => (
+                <span key={i} className="hero__name-word" style={{ animationDelay: `${i * 0.12}s` }}>
+                  {word}
+                </span>
+              ))}
+          </h1>
+
+          <p className="hero__tagline">"{h.tagline || "Turning Innovation into Advantage"}"</p>
+          <p className="hero__bio">{h.bio}</p>
+
+          <div className="hero__actions">
+            <a href="#projects" className="btn btn-primary">
+              <i className="bx bx-folder-open" /> View My Work
+            </a>
+            <a href={`mailto:${h.email}`} className="btn btn-outline">
+              <i className="bx bx-envelope" /> Get in Touch
+            </a>
+          </div>
+
+          <div className="hero__socials">
+            {h.github && (
+              <a href={h.github} target="_blank" rel="noopener noreferrer" className="hero__social-link">
+                <i className="bx bxl-github" /> GitHub
+              </a>
+            )}
+            {h.linkedin && (
+              <a href={h.linkedin} target="_blank" rel="noopener noreferrer" className="hero__social-link">
+                <i className="bx bxl-linkedin-square" /> LinkedIn
+              </a>
+            )}
+            {h.upwork && (
+              <a href={h.upwork} target="_blank" rel="noopener noreferrer" className="hero__social-link">
+                <i className="bx bxl-upwork" /> Upwork
+              </a>
+            )}
+          </div>
         </div>
 
-        <div className="hero__socials">
-          {h.github && (
-            <a href={h.github} target="_blank" rel="noopener noreferrer" className="hero__social-link">
-              <i className="bx bxl-github" /> GitHub
-            </a>
-          )}
-          {h.linkedin && (
-            <a href={h.linkedin} target="_blank" rel="noopener noreferrer" className="hero__social-link">
-              <i className="bx bxl-linkedin-square" /> LinkedIn
-            </a>
-          )}
-          {h.upwork && (
-            <a href={h.upwork} target="_blank" rel="noopener noreferrer" className="hero__social-link">
-              <i className="bx bxl-upwork" /> Upwork
-            </a>
-          )}
-        </div>
+        {/* Right — profile photo */}
+        {profileUrl && (
+          <div className="hero__photo-wrap">
+            <div className="hero__photo-ring" />
+            <div className="hero__photo-ring hero__photo-ring--2" />
+            <img
+              src={profileUrl}
+              alt="Reyden Fajiculay"
+              className="hero__photo"
+            />
+            <div className="hero__photo-badge">
+              <i className="bx bxs-check-shield" />
+              Web Developer
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="hero__scroll-hint">

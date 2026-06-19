@@ -23,35 +23,41 @@
   opacity: 0.5;
 }
 
+/* Two-column layout */
 .hero__inner {
   position: relative;
   z-index: 2;
-  max-width: 800px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4rem;
+  align-items: center;
+  width: 100%;
 }
 
-.hero__available {
-  margin-bottom: 1.5rem;
-}
+.hero__content { max-width: 640px; }
+
+/* Available badge */
+.hero__available { margin-bottom: 1.5rem; }
 
 .hero__badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.35rem 0.9rem;
-  background: rgba(154,177,10,0.12);
-  border: 1px solid rgba(154,177,10,0.35);
+  background: rgba(154,177,154,0.12);
+  border: 1px solid rgba(154,177,154,0.35);
   border-radius: 100px;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.08em;
-  color: #9AB10A;
+  color: #9AB19A;
   text-transform: uppercase;
 }
 
 .hero__dot {
   width: 6px;
   height: 6px;
-  background: #9AB10A;
+  background: #9AB19A;
   border-radius: 50%;
   animation: pulse-dot 2s ease-in-out infinite;
 }
@@ -61,7 +67,11 @@
   50% { opacity: 0.5; transform: scale(0.8); }
 }
 
+/* Eyebrow */
 .hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -69,9 +79,11 @@
   color: var(--tangerine);
   margin-bottom: 1rem;
 }
+.hero__eyebrow i { font-size: 1rem; }
 
+/* Name */
 .hero__name {
-  font-size: clamp(3.5rem, 9vw, 7.5rem);
+  font-size: clamp(3rem, 7vw, 6rem);
   color: var(--cream);
   line-height: 1;
   margin-bottom: 1.25rem;
@@ -87,27 +99,29 @@
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Tagline & bio */
 .hero__tagline {
   font-family: var(--font-body);
-  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  font-size: clamp(0.95rem, 2vw, 1.2rem);
   font-weight: 300;
   font-style: italic;
   color: var(--tangerine);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   letter-spacing: 0.02em;
 }
 
 .hero__bio {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: var(--text-muted);
-  max-width: 540px;
+  max-width: 520px;
   margin-bottom: 2.5rem;
   line-height: 1.8;
 }
 
+/* Action buttons */
 .hero__actions {
   display: flex;
   gap: 1rem;
@@ -115,12 +129,17 @@
   margin-bottom: 2.5rem;
 }
 
+/* Social links */
 .hero__socials {
   display: flex;
   gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .hero__social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.15em;
@@ -129,12 +148,86 @@
   border-bottom: 1px solid transparent;
   transition: all 0.2s;
 }
+.hero__social-link i { font-size: 1rem; }
+.hero__social-link:hover { color: var(--tangerine); border-bottom-color: var(--tangerine); }
 
-.hero__social-link:hover {
-  color: var(--tangerine);
-  border-bottom-color: var(--tangerine);
+/* ===== PROFILE PHOTO ===== */
+.hero__photo-wrap {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Rotating rings */
+.hero__photo-ring {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1px solid rgba(223,152,65,0.3);
+  animation: ring-spin 12s linear infinite;
+}
+
+.hero__photo-ring--2 {
+  inset: -24px;
+  border-color: rgba(223,152,65,0.15);
+  animation-duration: 20s;
+  animation-direction: reverse;
+}
+
+@keyframes ring-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Photo itself */
+.hero__photo {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  border: 3px solid var(--tangerine);
+  box-shadow: 0 0 40px rgba(223,152,65,0.2),
+              0 20px 60px rgba(0,0,0,0.4);
+  animation: photo-fade 1s ease 0.5s both;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes photo-fade {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Badge below photo */
+.hero__photo-badge {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg2);
+  border: 1px solid var(--tangerine);
+  border-radius: 100px;
+  padding: 0.35rem 1rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--tangerine);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  z-index: 2;
+}
+
+.hero__photo-badge i { font-size: 0.85rem; }
+
+/* Scroll hint */
 .hero__scroll-hint {
   position: absolute;
   bottom: 2.5rem;
@@ -162,29 +255,29 @@
 }
 
 @keyframes scroll-line {
-  0% { transform: scaleY(0); transform-origin: top; }
-  50% { transform: scaleY(1); transform-origin: top; }
-  51% { transform: scaleY(1); transform-origin: bottom; }
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  51%  { transform: scaleY(1); transform-origin: bottom; }
   100% { transform: scaleY(0); transform-origin: bottom; }
 }
 
-@media (max-width: 768px) {
+/* Responsive */
+@media (max-width: 900px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+    justify-items: center;
+  }
+  .hero__photo-wrap { width: 220px; height: 220px; order: -1; }
+  .hero__photo { width: 200px; height: 200px; }
+  .hero__bio { margin-left: auto; margin-right: auto; }
+  .hero__actions { justify-content: center; }
+  .hero__socials { justify-content: center; }
   .hero__scroll-hint { display: none; }
-  .hero__name { font-size: clamp(2.8rem, 10vw, 4.5rem); }
 }
 
-.hero__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+@media (max-width: 480px) {
+  .hero__name { font-size: clamp(2.2rem, 10vw, 3rem); }
+  .hero__photo-wrap { width: 180px; height: 180px; }
+  .hero__photo { width: 160px; height: 160px; }
 }
-
-.hero__eyebrow i { font-size: 1rem; }
-
-.hero__social-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.hero__social-link i { font-size: 1rem; }

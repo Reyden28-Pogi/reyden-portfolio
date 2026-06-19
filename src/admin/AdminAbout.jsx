@@ -1,45 +1,78 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "../lib/supabaseClient";
 
-export default function AdminAbout({ data, update }) {
-  const [form, setForm] = useState(data.about);
-  const [saved, setSaved] = useState(false);
-  const [adjInput, setAdjInput] = useState("");
+export default function AdminAbout() {
+  const [form, setForm] = useState({
+    headline: "",
+    body: "",
+    location: "",
+    available: true,
+    adjectives: "",
+    years_coding: "3+",
+    projects_built: "10+",
+    tech_stacks: "5+",
+  });
+  const [recordId, setRecordId] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [msg, setMsg] = useState(null);
 
-  const set = (key, val) => setForm((p) => ({ ...p, [key]: val }));
+  const showMsg = (text, type = "success") => {
+    setMsg({ text, type });
+    setTimeout(() => setMsg(null), 3000);
+  };
 
-  const addAdj = () => {
-    if (adjInput.trim()) {
-      set("adjectives", [...form.adjectives, adjInput.trim()]);
-      setAdjInput("");
+  useEffect(() => {
+    supabase.from("about_settings").select("*").limit(1).single()
+      .then(({ data }) => {
+        if (data) { setForm({ ...form, ...data }); setRecordId(data.id); }
+        setLoading(false);
+      });
+  }, []);
+
+  const save = async () => {
+    setSaving(true);
+    const payload = { ...form };
+    delete payload.id;
+
+    let error;
+    if (recordId) {
+      ({ error } = await supabase.from("about_settings").update(payload).eq("id", recordId));
+    } else {
+      const { data, error: err } = await supabase.from("about_settings").insert([payload]).select().single();
+      if (data) setRecordId(data.id);
+      error = err;
     }
+
+    setSaving(false);
+    if (error) showMsg("Failed to save.", "error");
+    else showMsg("Saved! ☁️");
   };
 
-  const removeAdj = (i) => {
-    set("adjectives", form.adjectives.filter((_, idx) => idx !== i));
-  };
+  const set = (key, val) => setForm(p => ({ ...p, [key]: val }));
 
-  const save = () => {
-    update("about", form);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2500);
-  };
+  if (loading) return <div className="admin-card"><p style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>Loading...</p></div>;
 
   return (
     <div>
       <div className="admin-card">
-        <p className="admin-card__title">About Section</p>
+        <p className="admin-card__title">About Section ☁️ Supabase</p>
+
         <div className="admin-field">
           <label>Headline</label>
-          <input value={form.headline} onChange={(e) => set("headline", e.target.value)} />
+          <input value={form.headline} onChange={(e) => set("headline", e.target.value)} placeholder="Forward-Thinking. Bold. Visionary." />
         </div>
+
         <div className="admin-field">
-          <label>Body Text (use blank line for paragraphs)</label>
-          <textarea rows={6} value={form.body} onChange={(e) => set("body", e.target.value)} />
+          <label>Body Text (use blank line between paragraphs)</label>
+          <textarea rows={8} value={form.body} onChange={(e) => set("body", e.target.value)} />
         </div>
+
         <div className="admin-field">
           <label>Location</label>
-          <input value={form.location} onChange={(e) => set("location", e.target.value)} />
+          <input value={form.location} onChange={(e) => set("location", e.target.value)} placeholder="City, Province" />
         </div>
+
         <div className="admin-field">
           <label>Available for Work?</label>
           <select value={form.available ? "yes" : "no"} onChange={(e) => set("available", e.target.value === "yes")}>
@@ -47,33 +80,38 @@ export default function AdminAbout({ data, update }) {
             <option value="no">No — Not Available</option>
           </select>
         </div>
+
+        <div className="admin-field">
+          <label>Adjectives (comma-separated)</label>
+          <input value={form.adjectives} onChange={(e) => set("adjectives", e.target.value)} placeholder="Forward-Thinking,Entrepreneurial,Bold,Surprising,Visionary" />
+          <p style={{ fontSize: "0.68rem", color: "var(--text-muted)", marginTop: "0.25rem" }}>
+            Separate with commas — e.g. Bold,Visionary,Creative
+          </p>
+        </div>
       </div>
 
       <div className="admin-card">
-        <p className="admin-card__title">Adjectives / Descriptors</p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1rem" }}>
-          {form.adjectives.map((adj, i) => (
-            <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", background: "rgba(173,115,65,0.15)", border: "1px solid rgba(173,115,65,0.3)", color: "var(--tangerine)", padding: "0.25rem 0.75rem", borderRadius: "2px", fontSize: "0.75rem", fontWeight: 600 }}>
-              {adj}
-              <button onClick={() => removeAdj(i)} style={{ background: "none", border: "none", color: "inherit", cursor: "pointer", fontSize: "0.8rem", lineHeight: 1 }}>×</button>
-            </span>
-          ))}
-        </div>
-        <div style={{ display: "flex", gap: "0.5rem" }}>
-          <input
-            className="admin-field input"
-            style={{ background: "var(--bg3)", border: "1px solid var(--border)", borderRadius: "2px", padding: "0.55rem 0.9rem", fontFamily: "var(--font-body)", fontSize: "0.85rem", color: "var(--cream)", flex: 1 }}
-            placeholder="Add adjective..."
-            value={adjInput}
-            onChange={(e) => setAdjInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && addAdj()}
-          />
-          <button className="admin-save-btn" onClick={addAdj}>Add</button>
-        </div>
+        <p className="admin-card__title">Stats</p>
+        {[
+          ["years_coding",   "Years Coding"],
+          ["projects_built", "Projects Built"],
+          ["tech_stacks",    "Tech Stacks"],
+        ].map(([key, label]) => (
+          <div key={key} className="admin-field">
+            <label>{label}</label>
+            <input value={form[key]} onChange={(e) => set(key, e.target.value)} placeholder="e.g. 3+" />
+          </div>
+        ))}
       </div>
 
-      <button className="admin-save-btn" onClick={save}>Save Changes</button>
-      {saved && <span className="admin-saved-msg">✓ Saved!</span>}
+      <button className="admin-save-btn" onClick={save} disabled={saving}>
+        {saving ? "Saving..." : "Save Changes"}
+      </button>
+      {msg && (
+        <span style={{ marginLeft: "1rem", fontSize: "0.75rem", color: msg.type === "error" ? "#ff8070" : "#9AB19A" }}>
+          {msg.type === "error" ? "✗" : "✓"} {msg.text}
+        </span>
+      )}
     </div>
   );
 }

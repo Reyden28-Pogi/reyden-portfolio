@@ -28,7 +28,7 @@ export default function AdminDashboard({ data, update, onLogout }) {
     switch (active) {
       case "analytics":    return <AdminAnalytics />;
       case "hero":         return <AdminHero data={data} update={update} />;
-      case "about":        return <AdminAbout data={data} update={update} />;
+      case "about":        return <AdminAbout />;
       case "skills":       return <AdminSkills />;
       case "projects":     return <AdminProjects />;
       case "certificates": return <AdminCertificates />;
@@ -60,6 +60,7 @@ export default function AdminDashboard({ data, update, onLogout }) {
           <button onClick={onLogout} className="admin-sidebar__logout">Log Out</button>
         </div>
       </aside>
+
       <main className="admin-main">
         <header className="admin-topbar">
           <button className="admin-topbar__burger" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
@@ -70,6 +71,7 @@ export default function AdminDashboard({ data, update, onLogout }) {
         </header>
         <div className="admin-panel">{renderPanel()}</div>
       </main>
+
       {sidebarOpen && <div className="admin-overlay" onClick={() => setSidebarOpen(false)} />}
     </div>
   );
